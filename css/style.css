@@ -8,7 +8,7 @@
   --mono: ui-monospace, "Cascadia Code", "SF Mono", "Segoe UI Mono", Consolas, "Liberation Mono", monospace;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  --wrap: 60rem;
+  --wrap: 73rem;
   --pad: clamp(1.25rem, 4vw, 2.5rem);
   --radius: 6px;
 
@@ -47,12 +47,20 @@ html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
 
 body {
   margin: 0;
-  background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+
+  /* One continuous grid across the whole page rather than only behind the
+     hero. On a wide screen the margins beside the content then read as
+     surface instead of void. */
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
@@ -91,12 +99,9 @@ code {
   padding-inline: var(--pad);
 }
 
-.grid-bg {
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
+/* Retained as a no-op hook: the grid now lives on body so it never breaks
+   alignment across section boundaries. */
+.grid-bg { background: none; }
 
 /* ---------------- nav ---------------- */
 
@@ -139,7 +144,7 @@ code {
 }
 .nav-links a {
   font-family: var(--mono);
-  font-size: .75rem;
+  font-size: .79rem;
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -172,7 +177,7 @@ code {
 
 .status {
   font-family: var(--mono);
-  font-size: .72rem;
+  font-size: .77rem;
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--ok);
@@ -274,7 +279,7 @@ code {
 .stat dd span { font-size: .5em; }
 .stat dt {
   font-family: var(--mono);
-  font-size: .66rem;
+  font-size: .73rem;
   letter-spacing: .07em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -289,7 +294,7 @@ code {
 
 .path {
   font-family: var(--mono);
-  font-size: .74rem;
+  font-size: .82rem;
   font-weight: 400;
   letter-spacing: .14em;
   color: var(--text-dim);
@@ -326,7 +331,7 @@ code {
 
 .badge {
   font-family: var(--mono);
-  font-size: .58rem;
+  font-size: .63rem;
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -340,27 +345,30 @@ code {
 
 .when {
   font-family: var(--mono);
-  font-size: .74rem;
+  font-size: .79rem;
   color: var(--text-dim);
   white-space: nowrap;
 }
 
 .job-role {
   font-family: var(--mono);
-  font-size: .82rem;
+  font-size: .87rem;
   color: var(--accent);
   margin: .25rem 0 .85rem;
 }
 .job-role .sep { color: var(--text-dim); }
 
-.bullets { margin: 0 0 .95rem; padding-left: 1.05rem; }
-.bullets li { margin-bottom: .45rem; }
+/* The container is wide so the two-column sections and diagrams have room,
+   but running text still needs a sane measure — past ~75 characters the eye
+   loses the line on the way back. */
+.bullets { margin: 0 0 .95rem; padding-left: 1.05rem; max-width: 76ch; }
+.bullets li { margin-bottom: .45rem; text-wrap: pretty; }
 .bullets li::marker { color: var(--text-dim); }
 
 .tags { display: flex; flex-wrap: wrap; gap: .35rem; list-style: none; margin: 0; padding: 0; }
 .tags li {
   font-family: var(--mono);
-  font-size: .68rem;
+  font-size: .73rem;
   color: var(--text-dim);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -396,12 +404,12 @@ code {
 }
 
 .links { display: flex; gap: .9rem; }
-.links a { font-family: var(--mono); font-size: .74rem; text-decoration: none; }
+.links a { font-family: var(--mono); font-size: .79rem; text-decoration: none; }
 .links a:hover { text-decoration: underline; }
 .links .live { color: var(--ok); display: inline-flex; align-items: center; gap: .35rem; }
 .links .live .dot { width: 6px; height: 6px; }
 
-.card p { margin: 0 0 1rem; }
+.card p { margin: 0 0 1rem; max-width: 76ch; text-wrap: pretty; }
 .card .tags { margin-top: .2rem; }
 
 .card-pair { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
@@ -419,7 +427,7 @@ code {
 .diagram svg { display: block; width: 100%; min-width: 34rem; height: auto; }
 .diagram figcaption {
   font-family: var(--mono);
-  font-size: .7rem;
+  font-size: .76rem;
   color: var(--text-dim);
   margin-top: .55rem;
 }
@@ -446,41 +454,51 @@ code {
 
 /* ---------------- skills ---------------- */
 
-.skills { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem 2rem; margin: 0; }
-.skills > div { display: flex; gap: .9rem; align-items: baseline; }
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: 1.15rem 3.5rem; margin: 0; }
+
+/* Grid rather than flex so the label column lands on the same x in both
+   columns, and the value column gets a real width instead of whatever is
+   left over. */
+.skills > div { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; align-items: baseline; }
 .skills dt {
   font-family: var(--mono);
-  font-size: .68rem;
+  font-size: .73rem;
   letter-spacing: .07em;
   text-transform: uppercase;
   color: var(--text-dim);
-  width: 7.2rem;
-  flex-shrink: 0;
 }
-.skills dd { margin: 0; font-size: .92rem; }
+.skills dd { margin: 0; font-size: .95rem; text-wrap: pretty; }
 
 /* ---------------- education / honors / languages ---------------- */
 
 .cols { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; }
 
 .edu { margin-bottom: 1.5rem; }
-.edu h3 { font-family: var(--mono); font-size: .98rem; font-weight: 600; margin: 0 0 .2rem; line-height: 1.4; }
-.edu p { margin: 0 0 .18rem; font-size: .88rem; }
+.edu h3 {
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 .2rem;
+  line-height: 1.4;
+  text-wrap: balance;   /* keeps "(IPEIS)" off a line by itself */
+}
+.edu p { margin: 0 0 .18rem; font-size: .92rem; }
 .edu .when { display: block; white-space: normal; }
-.edu .grade { color: var(--ok); font-family: var(--mono); font-size: .8rem; }
+.edu .grade { color: var(--ok); font-family: var(--mono); font-size: .85rem; }
 
-.langs { margin: 0; display: grid; gap: .3rem; }
-.langs > div { display: flex; gap: .7rem; align-items: baseline; }
-.langs dt { font-family: var(--mono); font-size: .84rem; width: 5.2rem; flex-shrink: 0; }
-.langs dd { margin: 0; font-size: .84rem; color: var(--text-dim); }
+.langs { margin: 0; display: grid; gap: .35rem; }
+.langs > div { display: grid; grid-template-columns: 5.5rem 1fr; gap: .7rem; align-items: baseline; }
+.langs dt { font-family: var(--mono); font-size: .89rem; }
+.langs dd { margin: 0; font-size: .89rem; color: var(--text-dim); }
 
 .honors { list-style: none; margin: 0; padding: 0; }
 .honors li {
   position: relative;
-  padding-left: 1.1rem;
-  margin-bottom: .75rem;
-  font-size: .9rem;
+  padding-left: 1.15rem;
+  margin-bottom: .8rem;
+  font-size: .95rem;
   line-height: 1.6;
+  text-wrap: pretty;
 }
 .honors li::before {
   content: "▸";
@@ -513,13 +531,18 @@ code {
   justify-content: space-between;
   gap: .4rem 1rem;
 }
-.foot p { font-family: var(--mono); font-size: .72rem; color: var(--text-dim); margin: 0; }
+.foot p { font-family: var(--mono); font-size: .77rem; color: var(--text-dim); margin: 0; }
 
 /* ---------------- responsive ---------------- */
 
+/* Two skill columns only when each value column is wide enough to hold its
+   longest line. Below this they wrap and orphan single words. */
+@media (max-width: 1080px) {
+  .skills { grid-template-columns: 1fr; gap: .8rem; }
+}
+
 @media (max-width: 800px) {
   .cols { grid-template-columns: 1fr; gap: 2rem; }
-  .skills { grid-template-columns: 1fr; gap: .7rem; }
 }
 
 @media (max-width: 640px) {
