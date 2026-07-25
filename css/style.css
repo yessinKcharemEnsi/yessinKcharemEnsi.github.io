@@ -1,0 +1,555 @@
+/* ============================================================
+   Yessin Kcharem — portfolio
+   Structure speaks in monospace, prose speaks in sans.
+   Every colour comes from a token so the light theme is a swap.
+   ============================================================ */
+
+:root {
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", "Segoe UI Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --wrap: 60rem;
+  --pad: clamp(1.25rem, 4vw, 2.5rem);
+  --radius: 6px;
+
+  --bg: #0b0f14;
+  --surface: #121a23;
+  --surface-2: #0f151d;
+  --border: #223040;
+  --text: #dde6ef;
+  --text-dim: #8496a6;
+  --accent: #58a6ff;
+  --accent-soft: rgba(88, 166, 255, .12);
+  --ok: #3fb950;
+  --warn: #d29922;
+  --grid: #131c26;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #f6f8fa;
+  --surface-2: #fbfcfd;
+  --border: #d5dde5;
+  --text: #10171e;
+  --text-dim: #56656f;
+  --accent: #0a58ca;
+  --accent-soft: rgba(10, 88, 202, .08);
+  --ok: #1a7f37;
+  --warn: #8a6100;
+  --grid: #eef2f6;
+  --shadow: 0 1px 2px rgba(16, 23, 30, .06);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+
+code {
+  font-family: var(--mono);
+  font-size: .88em;
+  background: var(--accent-soft);
+  padding: .1em .35em;
+  border-radius: 3px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--accent);
+  color: var(--bg);
+  padding: .6rem 1rem;
+  z-index: 100;
+  font-family: var(--mono);
+  font-size: .85rem;
+}
+.skip:focus { left: 0; }
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ---------------- nav ---------------- */
+
+/* Opaque rather than blurred. A backdrop-filter on a sticky bar re-filters the
+   region behind it on every scroll frame, which is a large cost for an effect
+   almost nobody notices. */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding: .7rem var(--pad);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wordmark {
+  font-family: var(--mono);
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  margin-right: auto;
+}
+.wordmark span { color: var(--ok); }
+
+.nav-links {
+  display: flex;
+  gap: 1.1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: .75rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a[aria-current="true"] { color: var(--accent); }
+
+.toggle {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.toggle:hover { color: var(--text); border-color: var(--text-dim); }
+.toggle svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+.toggle .icon-sun { display: none; }
+[data-theme="light"] .toggle .icon-sun { display: block; }
+[data-theme="light"] .toggle .icon-moon { display: none; }
+
+/* ---------------- hero ---------------- */
+
+.hero { padding: clamp(3rem, 9vw, 5.5rem) 0 clamp(2.5rem, 6vw, 4rem); }
+
+.status {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ok);
+  margin: 0 0 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ok);
+  flex-shrink: 0;
+  animation: pulse 2.6s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* Opacity only. Animating box-shadow repaints the element every frame; opacity
+   is composited on the GPU and costs nothing. */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .45; }
+}
+
+.hero h1 {
+  font-family: var(--mono);
+  font-size: clamp(2.1rem, 7vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  margin: 0 0 .5rem;
+}
+
+.role {
+  font-family: var(--mono);
+  font-size: clamp(.85rem, 2.4vw, 1rem);
+  color: var(--text-dim);
+  margin: 0 0 1.3rem;
+}
+
+.lede {
+  font-size: clamp(1rem, 2.6vw, 1.13rem);
+  line-height: 1.7;
+  max-width: 54ch;
+  margin: 0 0 2rem;
+}
+
+.cta-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2.6rem; }
+.cta-row.center { justify-content: center; margin-bottom: 0; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-family: var(--mono);
+  font-size: .82rem;
+  padding: .55rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color .15s, background .15s;
+}
+.btn:hover { border-color: var(--accent); background: var(--accent-soft); }
+.btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+.btn-primary:hover { background: var(--accent); filter: brightness(1.1); }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .7rem;
+  margin: 0;
+}
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem .95rem;
+}
+.stat dd {
+  font-family: var(--mono);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1;
+  margin: 0 0 .5rem;
+  letter-spacing: -.02em;
+}
+.stat dd span { font-size: .5em; }
+.stat dt {
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  line-height: 1.45;
+  order: 2;
+}
+.stat { display: flex; flex-direction: column; }
+
+/* ---------------- bands ---------------- */
+
+.band { padding: clamp(2.5rem, 7vw, 4rem) 0; border-top: 1px solid var(--border); }
+
+.path {
+  font-family: var(--mono);
+  font-size: .74rem;
+  font-weight: 400;
+  letter-spacing: .14em;
+  color: var(--text-dim);
+  margin: 0 0 1.8rem;
+}
+.path.spaced { margin-top: 2.6rem; }
+
+/* ---------------- experience ---------------- */
+
+.job {
+  border-left: 2px solid var(--border);
+  padding-left: 1.15rem;
+  margin-bottom: 2.4rem;
+}
+.job:last-child { margin-bottom: 0; }
+.job.current { border-left-color: var(--ok); }
+.job.intern { opacity: .8; }
+
+.job-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .4rem 1rem;
+}
+.job-head h3 {
+  font-family: var(--mono);
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  margin: 0;
+}
+.job.intern .job-head h3 { font-size: 1rem; }
+
+.badge {
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: .12rem .5rem;
+  vertical-align: middle;
+  margin-left: .35rem;
+  font-weight: 400;
+}
+
+.when {
+  font-family: var(--mono);
+  font-size: .74rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.job-role {
+  font-family: var(--mono);
+  font-size: .82rem;
+  color: var(--accent);
+  margin: .25rem 0 .85rem;
+}
+.job-role .sep { color: var(--text-dim); }
+
+.bullets { margin: 0 0 .95rem; padding-left: 1.05rem; }
+.bullets li { margin-bottom: .45rem; }
+.bullets li::marker { color: var(--text-dim); }
+
+.tags { display: flex; flex-wrap: wrap; gap: .35rem; list-style: none; margin: 0; padding: 0; }
+.tags li {
+  font-family: var(--mono);
+  font-size: .68rem;
+  color: var(--text-dim);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: .16rem .6rem;
+}
+
+/* ---------------- projects ---------------- */
+
+.card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.3rem;
+  box-shadow: var(--shadow);
+}
+.card.feature { margin-bottom: .9rem; }
+
+.card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .4rem .9rem;
+  margin-bottom: .6rem;
+}
+.card-head h3 {
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  margin: 0;
+}
+
+.links { display: flex; gap: .9rem; }
+.links a { font-family: var(--mono); font-size: .74rem; text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+.links .live { color: var(--ok); display: inline-flex; align-items: center; gap: .35rem; }
+.links .live .dot { width: 6px; height: 6px; }
+
+.card p { margin: 0 0 1rem; }
+.card .tags { margin-top: .2rem; }
+
+.card-pair { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+
+/* ---------------- diagrams ---------------- */
+
+.diagram { margin: 1.3rem 0 1.1rem; }
+.diagram-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 1rem .8rem;
+}
+.diagram svg { display: block; width: 100%; min-width: 34rem; height: auto; }
+.diagram figcaption {
+  font-family: var(--mono);
+  font-size: .7rem;
+  color: var(--text-dim);
+  margin-top: .55rem;
+}
+
+.dg-box { fill: var(--surface); stroke: var(--border); }
+.dg-band { fill: var(--surface-2); stroke: var(--border); }
+.dg-dash { stroke-dasharray: 4 3; }
+.dg-hi { stroke: var(--ok); }
+.dg-hw { stroke: var(--warn); }
+.dg-t { fill: var(--text); font-family: var(--mono); font-size: 11.5px; }
+.dg-s { fill: var(--text-dim); font-family: var(--mono); font-size: 9.5px; }
+.dg-ok { fill: var(--ok); font-family: var(--mono); font-size: 9.5px; }
+.dg-lbl { fill: var(--text-dim); font-family: var(--mono); font-size: 9.5px; letter-spacing: 1.4px; }
+.dg-lbl.dg-warn { fill: var(--warn); }
+.dg-line { stroke: var(--accent); stroke-width: 1.5; }
+.dg-wline { stroke: var(--warn); stroke-width: 1.3; stroke-dasharray: 3 3; }
+.dg-hint { stroke: var(--text-dim); stroke-width: 1.2; stroke-dasharray: 3 3; opacity: .6; }
+
+/* ---------------- prose ---------------- */
+
+.prose { max-width: 62ch; }
+.prose p { margin: 0 0 1.05rem; }
+.prose p:last-child { margin-bottom: 0; }
+
+/* ---------------- skills ---------------- */
+
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem 2rem; margin: 0; }
+.skills > div { display: flex; gap: .9rem; align-items: baseline; }
+.skills dt {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  width: 7.2rem;
+  flex-shrink: 0;
+}
+.skills dd { margin: 0; font-size: .92rem; }
+
+/* ---------------- education / honors / languages ---------------- */
+
+.cols { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; }
+
+.edu { margin-bottom: 1.5rem; }
+.edu h3 { font-family: var(--mono); font-size: .98rem; font-weight: 600; margin: 0 0 .2rem; line-height: 1.4; }
+.edu p { margin: 0 0 .18rem; font-size: .88rem; }
+.edu .when { display: block; white-space: normal; }
+.edu .grade { color: var(--ok); font-family: var(--mono); font-size: .8rem; }
+
+.langs { margin: 0; display: grid; gap: .3rem; }
+.langs > div { display: flex; gap: .7rem; align-items: baseline; }
+.langs dt { font-family: var(--mono); font-size: .84rem; width: 5.2rem; flex-shrink: 0; }
+.langs dd { margin: 0; font-size: .84rem; color: var(--text-dim); }
+
+.honors { list-style: none; margin: 0; padding: 0; }
+.honors li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: .75rem;
+  font-size: .9rem;
+  line-height: 1.6;
+}
+.honors li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--ok);
+}
+.honors strong { font-weight: 600; }
+
+/* ---------------- contact + footer ---------------- */
+
+.contact {
+  padding: clamp(3rem, 8vw, 4.5rem) 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.contact h2 {
+  font-family: var(--mono);
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  margin: 0 0 .6rem;
+}
+.contact p { color: var(--text-dim); margin: 0 0 1.8rem; }
+
+.foot { border-top: 1px solid var(--border); padding: 1.6rem 0; }
+.foot .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .4rem 1rem;
+}
+.foot p { font-family: var(--mono); font-size: .72rem; color: var(--text-dim); margin: 0; }
+
+/* ---------------- responsive ---------------- */
+
+@media (max-width: 800px) {
+  .cols { grid-template-columns: 1fr; gap: 2rem; }
+  .skills { grid-template-columns: 1fr; gap: .7rem; }
+}
+
+@media (max-width: 640px) {
+  .stats { grid-template-columns: 1fr; }
+  .stat { flex-direction: row; align-items: baseline; gap: .8rem; }
+  .stat dd { margin-bottom: 0; min-width: 3.6rem; }
+  .stat dt { order: 0; }
+  .card-pair { grid-template-columns: 1fr; }
+  .nav-links { gap: .75rem; }
+  .nav-links a { font-size: .68rem; }
+  .job-head { flex-direction: column; }
+  .when { white-space: normal; }
+}
+
+/* Below this, the wordmark + four jump links + toggle no longer fit on one row
+   and the toggle overhangs the viewport. On a single-scroll page the jump links
+   are the expendable part — people scroll on a phone. */
+@media (max-width: 480px) {
+  .nav-links { display: none; }
+  .wordmark { font-size: .82rem; }
+}
+
+@media print {
+  .nav, .toggle, .grid-bg { background: none; }
+  .nav, .contact .cta-row { display: none; }
+  body { color: #000; background: #fff; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .dot { animation: none; }
+  * { transition-duration: .01ms !important; }
+}

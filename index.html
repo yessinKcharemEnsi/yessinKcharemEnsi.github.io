@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Yessin Kcharem — Backend &amp; Distributed Data Systems</title>
+<meta name="description" content="Software engineer with four years building backend and distributed data systems in Python, Scala and Kubernetes. Based in Tunis, open to relocation within the EU.">
+<link rel="canonical" href="https://yessinkcharemensi.github.io/">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Yessin Kcharem — Backend &amp; Distributed Data Systems">
+<meta property="og:description" content="Four years building services that stay fast under load. Based in Tunis, open to relocation within the EU.">
+<meta property="og:url" content="https://yessinkcharemensi.github.io/">
+<meta name="twitter:card" content="summary">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+
+<script>
+  // Applied before first paint so the correct theme renders immediately.
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) { /* localStorage unavailable — keep the dark default */ }
+  })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Yessin Kcharem",
+  "jobTitle": "Software Engineer",
+  "email": "mailto:yessinekcharem@gmail.com",
+  "url": "https://yessinkcharemensi.github.io/",
+  "address": { "@type": "PostalAddress", "addressLocality": "Tunis", "addressCountry": "TN" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "National School of Computer Science (ENSI)" },
+  "knowsLanguage": ["Arabic", "English", "French", "German"],
+  "sameAs": [
+    "https://github.com/yessinKcharemEnsi",
+    "https://www.linkedin.com/in/yessin-kcharem/"
+  ]
+}
+</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="wordmark" href="#top">yessin<span>.</span>kcharem</a>
+    <nav aria-label="Sections">
+      <ul class="nav-links">
+        <li><a href="#experience">Work</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#skills">Skills</a></li>
+      </ul>
+    </nav>
+    <button id="theme-toggle" class="toggle" type="button" aria-label="Switch to light theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero grid-bg" id="top">
+    <div class="wrap">
+      <p class="status"><span class="dot" aria-hidden="true"></span>Available &middot; open to EU relocation</p>
+      <h1>Yessin Kcharem</h1>
+      <p class="role">Backend &amp; distributed data systems &middot; Tunis, Tunisia</p>
+      <p class="lede">Four years building services that stay fast under load — real-time voice
+        infrastructure, distributed ingestion across Kubernetes, and the observability to prove
+        any of it works.</p>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="assets/cv.pdf" download>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M12 15l-4.5-4.5M12 15l4.5-4.5M4 20h16"/></svg>
+          Download CV
+        </a>
+        <a class="btn" href="mailto:yessinekcharem@gmail.com">Email</a>
+        <a class="btn" href="https://www.linkedin.com/in/yessin-kcharem/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/yessinKcharemEnsi" target="_blank" rel="noopener">GitHub</a>
+      </div>
+
+      <dl class="stats">
+        <div class="stat">
+          <dt>Response time reduced</dt>
+          <dd>50<span>%</span></dd>
+        </div>
+        <div class="stat">
+          <dt>Requests sustained under load</dt>
+          <dd>1K<span>/s</span></dd>
+        </div>
+        <div class="stat">
+          <dt>Unit test coverage held</dt>
+          <dd>80<span>%</span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ==================== EXPERIENCE ==================== -->
+  <section class="band" id="experience">
+    <div class="wrap">
+      <h2 class="path">~/experience</h2>
+
+      <article class="job current">
+        <div class="job-head">
+          <h3>ELYADATA</h3>
+          <span class="when">Aug 2025 — Present</span>
+        </div>
+        <p class="job-role">Software Engineer II <span class="sep">&middot;</span> Tunis</p>
+        <ul class="bullets">
+          <li>Built a real-time voice system that lets people phone an AI assistant over the cellular
+            network, using Twilio for telephony, Langflow for orchestration and OpenAI realtime agents.</li>
+          <li>Designed a generic data loader that ingests structured and semi-structured data from cloud
+            storage and files (S3, CSV, Parquet), validates records against configurable business rules,
+            and distributes processing across parallel Kubernetes pods.</li>
+          <li>Instrumented the platform end to end — Prometheus metrics, Grafana dashboards and Elastic
+            APM tracing — so reliability problems surfaced before users reported them.</li>
+          <li>Benchmarked the system to 1,000 requests per second with Gatling and Locust.</li>
+          <li>Profiled JVM and PostgreSQL behaviour with Java Flight Recorder and
+            <code>pg_stat_statements</code>, tracking slow queries and open connections to find real hotspots.</li>
+          <li>Cut response time by 50% by fixing the bottlenecks profiling actually pointed to.</li>
+        </ul>
+        <ul class="tags">
+          <li>Python</li><li>FastAPI</li><li>PostgreSQL</li><li>Kubernetes</li><li>Helm</li>
+          <li>Prometheus</li><li>Grafana</li><li>Elastic APM</li><li>Twilio</li><li>Langflow</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>COGNIRA</h3>
+          <span class="when">Jul 2022 — Jul 2025</span>
+        </div>
+        <p class="job-role">Software Engineer II <span class="sep">&middot;</span> Tunis</p>
+        <ul class="bullets">
+          <li>Built backend features for a promotion-planning platform, including versioned state capture
+            at finalization.</li>
+          <li>Architected and deployed caching that cut data retrieval time by 30%.</li>
+          <li>Designed and tuned data models across PostgreSQL and Cassandra for storage efficiency and
+            scale.</li>
+          <li>Held unit test coverage at 80%, catching the large majority of defects before production.</li>
+          <li>Migrated the backend build system from SBT to Bazel, improving build times, dependency
+            handling and CI/CD throughput.</li>
+          <li>Wrote PySpark scripts for database migration and data transformation.</li>
+        </ul>
+        <ul class="tags">
+          <li>Scala</li><li>Akka</li><li>PostgreSQL</li><li>Cassandra</li><li>PySpark</li>
+          <li>Bazel</li><li>Docker</li><li>Kubernetes</li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>TELNET Groupe</h3>
+          <span class="when">Jan 2022 — Jul 2022</span>
+        </div>
+        <p class="job-role">Software Engineer <span class="sep">&middot;</span> Sfax</p>
+        <ul class="bullets">
+          <li>Led development of a resume scanning and classification system built on OCR and NLP,
+            delivered in Agile Scrum.</li>
+          <li>Built Python and Flask microservices for classification, authentication and document
+            management, secured with JWT.</li>
+          <li>Cut document classification time by 30% using multithreading.</li>
+          <li>Built the companion Flutter app, adding contour detection to improve scan accuracy.</li>
+        </ul>
+        <ul class="tags">
+          <li>Python</li><li>Flask</li><li>Flutter</li><li>NLP</li><li>MySQL</li><li>JWT</li>
+        </ul>
+      </article>
+
+      <article class="job intern">
+        <div class="job-head">
+          <h3>Future Proof <span class="badge">Internship</span></h3>
+          <span class="when">Jun — Aug 2021</span>
+        </div>
+        <p class="job-role">Intern <span class="sep">&middot;</span> Sfax</p>
+        <ul class="bullets">
+          <li>Designed and implemented a business process for managing a real estate advertisement
+            database, using Flowable and BPMN.</li>
+          <li>Built Spring Boot microservices with machine learning models that extracted key features
+            from over 1,000 textual descriptions.</li>
+          <li>Designed a PostgreSQL model supporting more than 50,000 records.</li>
+        </ul>
+        <ul class="tags">
+          <li>Java</li><li>Spring Boot</li><li>PostgreSQL</li><li>Flowable</li><li>BPMN</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================== PROJECTS ==================== -->
+  <section class="band" id="projects">
+    <div class="wrap">
+      <h2 class="path">~/projects</h2>
+
+      <article class="card feature">
+        <div class="card-head">
+          <h3>FINT</h3>
+          <div class="links">
+            <a href="https://financial-app-fin6.vercel.app" target="_blank" rel="noopener" class="live">
+              <span class="dot" aria-hidden="true"></span>Live demo
+            </a>
+            <a href="https://github.com/yessinKcharemEnsi/financial-app" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+        <p>Turns bank statement exports into spending insight. It deduplicates transactions on import,
+          learns categorization rules from corrections, and renders trends and savings rates. The design
+          centres on two invariants I would want in production: imports are idempotent, so re-uploading
+          a statement changes nothing, and every query is scoped to its tenant.</p>
+
+        <figure class="diagram">
+          <div class="diagram-scroll">
+            <svg viewBox="0 0 820 420" role="img" aria-labelledby="d1t d1d">
+              <title id="d1t">FINT system architecture</title>
+              <desc id="d1d">A bank statement export is parsed, deduplicated for idempotent import,
+                categorized by learned rules, then aggregated for analytics by a FastAPI service on
+                Render. It persists to PostgreSQL 16 on Neon, which serves a React web client on Vercel
+                and an Expo React Native mobile client.</desc>
+              <defs>
+                <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L7,3 z" fill="var(--accent)"/>
+                </marker>
+              </defs>
+
+              <rect x="14" y="86" width="150" height="52" rx="6" class="dg-box"/>
+              <text x="89" y="107" class="dg-t" text-anchor="middle">Statement export</text>
+              <text x="89" y="124" class="dg-s" text-anchor="middle">CSV · OFX upload</text>
+              <line x1="164" y1="112" x2="196" y2="112" class="dg-line" marker-end="url(#ar)"/>
+
+              <rect x="200" y="52" width="606" height="120" rx="8" class="dg-band"/>
+              <text x="212" y="72" class="dg-lbl">FASTAPI · RENDER</text>
+
+              <rect x="214" y="84" width="128" height="58" rx="5" class="dg-box"/>
+              <text x="278" y="106" class="dg-t" text-anchor="middle">Parse</text>
+              <text x="278" y="122" class="dg-s" text-anchor="middle">normalize rows</text>
+              <line x1="342" y1="113" x2="368" y2="113" class="dg-line" marker-end="url(#ar)"/>
+
+              <rect x="372" y="84" width="128" height="58" rx="5" class="dg-box dg-hi"/>
+              <text x="436" y="106" class="dg-t" text-anchor="middle">Deduplicate</text>
+              <text x="436" y="122" class="dg-ok" text-anchor="middle">idempotent import</text>
+              <line x1="500" y1="113" x2="526" y2="113" class="dg-line" marker-end="url(#ar)"/>
+
+              <rect x="530" y="84" width="128" height="58" rx="5" class="dg-box"/>
+              <text x="594" y="106" class="dg-t" text-anchor="middle">Categorize</text>
+              <text x="594" y="122" class="dg-s" text-anchor="middle">learned rules</text>
+              <line x1="658" y1="113" x2="684" y2="113" class="dg-line" marker-end="url(#ar)"/>
+
+              <rect x="688" y="84" width="106" height="58" rx="5" class="dg-box"/>
+              <text x="741" y="106" class="dg-t" text-anchor="middle">Analytics</text>
+              <text x="741" y="122" class="dg-s" text-anchor="middle">aggregate</text>
+
+              <line x1="436" y1="172" x2="436" y2="212" class="dg-line" marker-end="url(#ar)"/>
+              <rect x="288" y="216" width="296" height="56" rx="6" class="dg-box"/>
+              <text x="436" y="238" class="dg-t" text-anchor="middle">PostgreSQL 16 · Neon</text>
+              <text x="436" y="256" class="dg-s" text-anchor="middle">SQLAlchemy 2 · Alembic · tenant isolation</text>
+
+              <line x1="330" y1="330" x2="330" y2="286" class="dg-line" marker-end="url(#ar)"/>
+              <line x1="542" y1="330" x2="542" y2="286" class="dg-line" marker-end="url(#ar)"/>
+              <text x="436" y="308" class="dg-s" text-anchor="middle">one API, two clients</text>
+
+              <rect x="238" y="334" width="184" height="54" rx="6" class="dg-box"/>
+              <text x="330" y="356" class="dg-t" text-anchor="middle">React 18 + Vite</text>
+              <text x="330" y="373" class="dg-s" text-anchor="middle">TanStack Query · Vercel</text>
+
+              <rect x="450" y="334" width="184" height="54" rx="6" class="dg-box"/>
+              <text x="542" y="356" class="dg-t" text-anchor="middle">Expo · React Native</text>
+              <text x="542" y="373" class="dg-s" text-anchor="middle">Expo Router · SecureStore</text>
+            </svg>
+          </div>
+          <figcaption>Import pipeline, storage and clients.</figcaption>
+        </figure>
+
+        <ul class="tags">
+          <li>FastAPI</li><li>PostgreSQL 16</li><li>SQLAlchemy 2</li><li>Alembic</li>
+          <li>React 18</li><li>TypeScript</li><li>Expo</li><li>Docker</li>
+        </ul>
+      </article>
+
+      <div class="card-pair">
+        <article class="card">
+          <div class="card-head">
+            <h3>AdVeris</h3>
+            <div class="links">
+              <a href="https://github.com/yessinKcharemEnsi/AdVeris" target="_blank" rel="noopener">Source</a>
+            </div>
+          </div>
+          <p>Verifies real estate listings by running them through three independent services: a scraper
+            that collects ads, a named-entity model that pulls structured fields out of free text, and a
+            processor that validates what came back.</p>
+          <ul class="tags"><li>Java</li><li>Spring Boot</li><li>NER</li><li>Web scraping</li></ul>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Kings Card Game</h3>
+            <div class="links">
+              <a href="https://github.com/yessinKcharemEnsi/KingsCardGame" target="_blank" rel="noopener">Source</a>
+            </div>
+          </div>
+          <p>An Android card game where one human plays three automated opponents, discarding matched
+            pairs until someone is left holding the King. Animated card movement, switchable themes, and
+            English, French and German throughout.</p>
+          <ul class="tags"><li>Java</li><li>Android Studio</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== APPROACH ==================== -->
+  <section class="band" id="approach">
+    <div class="wrap">
+      <h2 class="path">~/approach</h2>
+
+      <div class="prose">
+        <p>Most performance problems arrive with a theory already attached. The theory is usually
+          wrong, and acting on it costs a week.</p>
+        <p>So I measure first. On the platform I work on now, that meant Prometheus metrics on every
+          service, Grafana dashboards that make degradation visible rather than inferable, and Elastic
+          APM traces that follow one request the whole way through. When the numbers looked bad I went
+          a layer down — Java Flight Recorder for JVM behaviour,
+          <code>pg_stat_statements</code> for the queries and connections actually under strain. The
+          bottleneck was never quite where anyone predicted. Fixing the real one cut response time in
+          half.</p>
+        <p>The same instinct shapes how I build. The ingestion framework below is deliberately boring:
+          a coordinator splits the work, identical pods do the same job in parallel, validation rules
+          live in configuration rather than code, and rejected records are quarantined instead of
+          dropped. Nothing clever. It scales by adding pods, and when it misbehaves the metrics already
+          say why.</p>
+      </div>
+
+      <figure class="diagram">
+        <div class="diagram-scroll">
+          <svg viewBox="0 0 820 400" role="img" aria-labelledby="d2t d2d">
+            <title id="d2t">Distributed ingestion pattern</title>
+            <desc id="d2d">Data from S3 objects, CSV and Parquet files reaches a coordinator that
+              partitions the workload across parallel worker pods on Kubernetes. Each pod validates,
+              transforms and writes records against configurable rules, sending valid records to a
+              target store and quarantining rejects. Prometheus scrapes per-pod metrics, feeding Grafana
+              dashboards and Elastic APM traces.</desc>
+            <defs>
+              <marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L7,3 z" fill="var(--accent)"/>
+              </marker>
+              <marker id="ar3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L7,3 z" fill="var(--warn)"/>
+              </marker>
+            </defs>
+
+            <text x="16" y="34" class="dg-lbl">SOURCES</text>
+            <rect x="14" y="44" width="126" height="38" rx="5" class="dg-box"/>
+            <text x="77" y="68" class="dg-t" text-anchor="middle">S3 objects</text>
+            <rect x="14" y="90" width="126" height="38" rx="5" class="dg-box"/>
+            <text x="77" y="114" class="dg-t" text-anchor="middle">CSV</text>
+            <rect x="14" y="136" width="126" height="38" rx="5" class="dg-box"/>
+            <text x="77" y="160" class="dg-t" text-anchor="middle">Parquet</text>
+            <line x1="140" y1="109" x2="176" y2="109" class="dg-line" marker-end="url(#ar2)"/>
+
+            <rect x="180" y="76" width="132" height="66" rx="6" class="dg-box dg-hi"/>
+            <text x="246" y="100" class="dg-t" text-anchor="middle">Coordinator</text>
+            <text x="246" y="116" class="dg-s" text-anchor="middle">partitions the</text>
+            <text x="246" y="129" class="dg-s" text-anchor="middle">workload</text>
+
+            <path d="M312,109 C348,109 348,58 384,58" class="dg-line" fill="none" marker-end="url(#ar2)"/>
+            <line x1="312" y1="109" x2="380" y2="109" class="dg-line" marker-end="url(#ar2)"/>
+            <path d="M312,109 C348,109 348,160 384,160" class="dg-line" fill="none" marker-end="url(#ar2)"/>
+
+            <rect x="374" y="26" width="230" height="172" rx="8" class="dg-band dg-dash"/>
+            <text x="386" y="18" class="dg-lbl">KUBERNETES · PARALLEL PODS</text>
+
+            <rect x="388" y="34" width="202" height="46" rx="5" class="dg-box"/>
+            <text x="489" y="53" class="dg-t" text-anchor="middle">worker pod 1</text>
+            <text x="489" y="69" class="dg-s" text-anchor="middle">validate → transform → write</text>
+            <rect x="388" y="86" width="202" height="46" rx="5" class="dg-box"/>
+            <text x="489" y="105" class="dg-t" text-anchor="middle">worker pod 2</text>
+            <text x="489" y="121" class="dg-s" text-anchor="middle">validate → transform → write</text>
+            <rect x="388" y="138" width="202" height="46" rx="5" class="dg-box"/>
+            <text x="489" y="157" class="dg-t" text-anchor="middle">worker pod n</text>
+            <text x="489" y="173" class="dg-s" text-anchor="middle">validate → transform → write</text>
+
+            <rect x="180" y="176" width="132" height="52" rx="6" class="dg-box"/>
+            <text x="246" y="197" class="dg-t" text-anchor="middle">Rule config</text>
+            <text x="246" y="213" class="dg-s" text-anchor="middle">business validation</text>
+            <path d="M312,202 C346,202 356,140 384,140" class="dg-hint" fill="none"/>
+
+            <line x1="604" y1="109" x2="640" y2="109" class="dg-line" marker-end="url(#ar2)"/>
+            <rect x="644" y="76" width="160" height="66" rx="6" class="dg-box"/>
+            <text x="724" y="100" class="dg-t" text-anchor="middle">Target store</text>
+            <text x="724" y="118" class="dg-s" text-anchor="middle">validated records</text>
+            <text x="724" y="131" class="dg-s" text-anchor="middle">+ rejects quarantined</text>
+
+            <text x="16" y="266" class="dg-lbl dg-warn">OBSERVABILITY</text>
+            <line x1="489" y1="198" x2="489" y2="280" class="dg-wline" marker-end="url(#ar3)"/>
+            <text x="502" y="240" class="dg-s">metrics scraped per pod</text>
+
+            <rect x="180" y="284" width="150" height="50" rx="6" class="dg-box dg-hw"/>
+            <text x="255" y="305" class="dg-t" text-anchor="middle">Prometheus</text>
+            <text x="255" y="321" class="dg-s" text-anchor="middle">throughput · lag · errors</text>
+            <rect x="414" y="284" width="150" height="50" rx="6" class="dg-box dg-hw"/>
+            <text x="489" y="305" class="dg-t" text-anchor="middle">Grafana</text>
+            <text x="489" y="321" class="dg-s" text-anchor="middle">dashboards · alerts</text>
+            <rect x="648" y="284" width="150" height="50" rx="6" class="dg-box dg-hw"/>
+            <text x="723" y="305" class="dg-t" text-anchor="middle">Elastic APM</text>
+            <text x="723" y="321" class="dg-s" text-anchor="middle">distributed traces</text>
+
+            <line x1="330" y1="309" x2="408" y2="309" class="dg-wline" marker-end="url(#ar3)"/>
+            <line x1="564" y1="309" x2="642" y2="309" class="dg-wline" marker-end="url(#ar3)"/>
+          </svg>
+        </div>
+        <figcaption>A generalized ingestion pattern — no employer-specific detail.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================== SKILLS ==================== -->
+  <section class="band" id="skills">
+    <div class="wrap">
+      <h2 class="path">~/skills</h2>
+      <dl class="skills">
+        <div><dt>Languages</dt><dd>Scala &middot; Python &middot; Java</dd></div>
+        <div><dt>Frameworks</dt><dd>FastAPI &middot; Flask &middot; Spring Boot &middot; Akka &middot; PySpark</dd></div>
+        <div><dt>Infrastructure</dt><dd>Docker &middot; Kubernetes &middot; Helm &middot; Jenkins &middot; Bazel &middot; Git</dd></div>
+        <div><dt>Data</dt><dd>PostgreSQL &middot; Cassandra &middot; MySQL</dd></div>
+        <div><dt>Observability</dt><dd>Prometheus &middot; Grafana &middot; Elastic APM &middot; JFR &middot; pg_stat_statements</dd></div>
+        <div><dt>Testing</dt><dd>Gatling &middot; Locust &middot; SonarQube</dd></div>
+        <div><dt>AI &amp; real-time</dt><dd>Langflow &middot; Twilio &middot; OpenAI realtime &middot; Claude Code</dd></div>
+        <div><dt>Cloud &amp; mobile</dt><dd>Azure &middot; Flutter &middot; Android Studio &middot; Expo</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ==================== EDUCATION / HONORS / LANGUAGES ==================== -->
+  <section class="band" id="about">
+    <div class="wrap cols">
+      <div>
+        <h2 class="path">~/education</h2>
+        <div class="edu">
+          <h3>National School of Computer Science (ENSI)</h3>
+          <p class="when">Engineering Degree, Computer Science &middot; 2019 — 2022</p>
+          <p class="grade">16.53 / 20 — Highest Honors</p>
+          <p><a href="https://eurace.enaee.eu/node/76612" target="_blank" rel="noopener">Accredited by ASIIN with the EUR-ACE label</a></p>
+        </div>
+        <div class="edu">
+          <h3>Preparatory Institute for Engineering Studies (IPEIS)</h3>
+          <p class="when">Pre-Engineering Degree &middot; Sfax &middot; 2017 — 2019</p>
+        </div>
+
+        <h2 class="path spaced">~/languages</h2>
+        <dl class="langs">
+          <div><dt>Arabic</dt><dd>Native</dd></div>
+          <div><dt>English</dt><dd>Advanced</dd></div>
+          <div><dt>French</dt><dd>Intermediate</dd></div>
+          <div><dt>German</dt><dd>Beginner (A1)</dd></div>
+        </dl>
+      </div>
+
+      <div>
+        <h2 class="path">~/honors</h2>
+        <ul class="honors">
+          <li><strong>Promoted to Software Engineer II</strong> within one year — COGNIRA, 2023</li>
+          <li><strong>Technical interviewer</strong> — COGNIRA, 2023</li>
+          <li><strong>Top 5% academic distinction</strong> — ENSI, 2021</li>
+          <li><strong>Ranked top 7% nationwide</strong> — National Engineering Entrance Exam, Tunisia, 2019</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section class="contact grid-bg" id="contact">
+    <div class="wrap">
+      <h2>Hiring backend engineers in the EU?</h2>
+      <p>Open to relocation and to remote work. Email reaches me fastest.</p>
+      <div class="cta-row center">
+        <a class="btn btn-primary" href="mailto:yessinekcharem@gmail.com">yessinekcharem@gmail.com</a>
+        <a class="btn" href="https://www.linkedin.com/in/yessin-kcharem/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/yessinKcharemEnsi" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="assets/cv.pdf" download>Download CV</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Tunis, Tunisia</p>
+    <p>Last updated <time datetime="2026-07-25">July 2026</time> &middot;
+       <a href="https://github.com/yessinKcharemEnsi/yessinKcharemEnsi.github.io" target="_blank" rel="noopener">Source</a></p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
