@@ -219,6 +219,19 @@
           centres on two invariants I would want in production: imports are idempotent, so re-uploading
           a statement changes nothing, and every query is scoped to its tenant.</p>
 
+        <p>The newest addition is <strong>Ask</strong> — a question box over your own data. You type
+          <em>“which month did I spend the most?”</em>, an LLM writes read-only SQL, PostgreSQL does the
+          arithmetic, and the query it ran is printed underneath the answer. Handing the model a pile of
+          rows and letting it add them up is precisely where these systems quietly get money wrong, so it
+          never reports a total it did not compute in the database.</p>
+
+        <p>Registration is open, which makes prompt injection a real threat rather than a hypothetical
+          one — and a prompt is the wrong place to defend against it. The model reaches data through a
+          schema of seven per-user views, under a Postgres role holding <code>SELECT</code> on those
+          views and nothing whatsoever on the application tables, inside a read-only transaction with a
+          statement timeout and a row cap. <code>SELECT * FROM public.users</code> fails because the
+          database refuses it, not because the instructions asked it not to.</p>
+
         <figure class="diagram">
           <div class="diagram-scroll">
             <svg viewBox="0 0 820 420" role="img" aria-labelledby="d1t d1d">
@@ -281,8 +294,84 @@
           <figcaption>Import pipeline, storage and clients.</figcaption>
         </figure>
 
+        <figure class="diagram">
+          <div class="diagram-scroll">
+            <svg viewBox="0 0 820 380" role="img" aria-labelledby="d3t d3d">
+              <title id="d3t">How the Ask feature answers a question</title>
+              <desc id="d3d">A plain-language question goes to an LLM, which writes read-only SQL. The
+                query passes through a guard before PostgreSQL executes it and computes the totals, and
+                the answer is returned together with the SQL that produced it. The guard is four
+                independent layers: sqlglot AST validation limiting the query to a single SELECT over
+                seven views; an agent schema of seven per-user views scoped by a transaction-local user
+                id; a finance_agent Postgres role with SELECT on that schema and no grants on the
+                application tables; and an execution envelope that begins a read-only transaction with a
+                statement timeout, a row cap and an unconditional rollback.</desc>
+              <defs>
+                <marker id="ar4" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L7,3 z" fill="var(--accent)"/>
+                </marker>
+              </defs>
+
+              <rect x="14" y="46" width="150" height="58" rx="6" class="dg-box"/>
+              <text x="89" y="70" class="dg-t" text-anchor="middle">Question</text>
+              <text x="89" y="88" class="dg-s" text-anchor="middle">plain language</text>
+              <line x1="164" y1="75" x2="196" y2="75" class="dg-line" marker-end="url(#ar4)"/>
+
+              <rect x="200" y="46" width="150" height="58" rx="6" class="dg-box"/>
+              <text x="275" y="70" class="dg-t" text-anchor="middle">LLM</text>
+              <text x="275" y="88" class="dg-s" text-anchor="middle">writes read-only SQL</text>
+              <line x1="350" y1="75" x2="382" y2="75" class="dg-line" marker-end="url(#ar4)"/>
+
+              <rect x="386" y="46" width="150" height="58" rx="6" class="dg-box dg-hi"/>
+              <text x="461" y="70" class="dg-t" text-anchor="middle">Guard</text>
+              <text x="461" y="88" class="dg-ok" text-anchor="middle">four layers, below</text>
+              <line x1="536" y1="75" x2="568" y2="75" class="dg-line" marker-end="url(#ar4)"/>
+
+              <rect x="572" y="46" width="234" height="58" rx="6" class="dg-box"/>
+              <text x="689" y="70" class="dg-t" text-anchor="middle">PostgreSQL</text>
+              <text x="689" y="88" class="dg-s" text-anchor="middle">computes every total</text>
+
+              <line x1="689" y1="104" x2="689" y2="130" class="dg-line" marker-end="url(#ar4)"/>
+              <rect x="572" y="134" width="234" height="52" rx="6" class="dg-box dg-hi"/>
+              <text x="689" y="156" class="dg-t" text-anchor="middle">Answer</text>
+              <text x="689" y="174" class="dg-ok" text-anchor="middle">shown with its SQL</text>
+
+              <path d="M461,104 L461,206" class="dg-hint" fill="none"/>
+
+              <rect x="14" y="214" width="792" height="150" rx="8" class="dg-band dg-dash"/>
+              <text x="26" y="206" class="dg-lbl">THE GUARD — STRUCTURAL, NOT PROMPTED</text>
+
+              <rect x="28" y="240" width="180" height="104" rx="5" class="dg-box"/>
+              <text x="118" y="268" class="dg-t" text-anchor="middle">AST validation</text>
+              <text x="118" y="292" class="dg-s" text-anchor="middle">a single SELECT</text>
+              <text x="118" y="308" class="dg-s" text-anchor="middle">over the seven views</text>
+              <text x="118" y="324" class="dg-s" text-anchor="middle">sqlglot</text>
+
+              <rect x="222" y="240" width="180" height="104" rx="5" class="dg-box"/>
+              <text x="312" y="268" class="dg-t" text-anchor="middle">agent schema</text>
+              <text x="312" y="292" class="dg-s" text-anchor="middle">7 per-user views</text>
+              <text x="312" y="308" class="dg-s" text-anchor="middle">scoped by app.user_id</text>
+              <text x="312" y="324" class="dg-s" text-anchor="middle">set per transaction</text>
+
+              <rect x="416" y="240" width="180" height="104" rx="5" class="dg-box dg-hi"/>
+              <text x="506" y="268" class="dg-t" text-anchor="middle">finance_agent role</text>
+              <text x="506" y="292" class="dg-s" text-anchor="middle">SELECT on agent only</text>
+              <text x="506" y="308" class="dg-s" text-anchor="middle">no grants on public</text>
+              <text x="506" y="324" class="dg-ok" text-anchor="middle">users unreachable</text>
+
+              <rect x="610" y="240" width="180" height="104" rx="5" class="dg-box"/>
+              <text x="700" y="268" class="dg-t" text-anchor="middle">Execution envelope</text>
+              <text x="700" y="292" class="dg-s" text-anchor="middle">BEGIN READ ONLY</text>
+              <text x="700" y="308" class="dg-s" text-anchor="middle">timeout · row cap</text>
+              <text x="700" y="324" class="dg-s" text-anchor="middle">always rollback</text>
+            </svg>
+          </div>
+          <figcaption>Ask — the query path, and the four layers it has to survive.</figcaption>
+        </figure>
+
         <ul class="tags">
           <li>FastAPI</li><li>PostgreSQL 16</li><li>SQLAlchemy 2</li><li>Alembic</li>
+          <li>LLM agent loop</li><li>sqlglot</li><li>SSE</li>
           <li>React 18</li><li>TypeScript</li><li>Expo</li><li>Docker</li>
         </ul>
       </article>
@@ -433,7 +522,7 @@
         <div><dt>Data</dt><dd>PostgreSQL &middot; Cassandra &middot; MySQL</dd></div>
         <div><dt>Observability</dt><dd>Prometheus &middot; Grafana &middot; Elastic APM &middot; JFR &middot; pg_stat_statements</dd></div>
         <div><dt>Testing</dt><dd>Gatling &middot; Locust &middot; SonarQube</dd></div>
-        <div><dt>AI &amp; real-time</dt><dd>Langflow &middot; Twilio &middot; OpenAI realtime &middot; Claude Code</dd></div>
+        <div><dt>AI &amp; real-time</dt><dd>LLM agent loops &middot; Gemini &middot; Anthropic &middot; SSE streaming &middot; Langflow &middot; Twilio &middot; OpenAI realtime &middot; Claude Code</dd></div>
         <div><dt>Cloud &amp; mobile</dt><dd>Azure &middot; Flutter &middot; Android Studio &middot; Expo</dd></div>
       </dl>
     </div>
@@ -494,7 +583,7 @@
 <footer class="foot">
   <div class="wrap">
     <p>Tunis, Tunisia</p>
-    <p>Last updated <time datetime="2026-07-25">July 2026</time> &middot;
+    <p>Last updated <time datetime="2026-07-27">July 2026</time> &middot;
        <a href="https://github.com/yessinKcharemEnsi/yessinKcharemEnsi.github.io" target="_blank" rel="noopener">Source</a></p>
   </div>
 </footer>
